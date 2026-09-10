@@ -24,13 +24,13 @@ Dependencies:
 ## Configure worflow
 
 To configure this workflow, modify the `./config/config.yaml` file according to your needs.
-* genome: Fasta file of reference genome.
-* bed: GTF annotation file of regions to enrich for the adaptive sampling process.
-* indir: Path of the directory containing the .fastq.gz input files.
-* outdir: Path of the outdirectory.
-* samples: names of the differents samples.
-* barcode_to_sample: correspondance between samples and their barcodes.
-* threads: number of threads to use.
+* `genome`: Fasta file of reference genome.
+* `bed`: GTF annotation file of regions to enrich for the adaptive sampling process.
+* `indir`: Path of the directory containing the `.fastq.gz` input files.
+* `outdir`: Path of the outdirectory.
+* `samples`: names of the differents samples.
+* `barcode_to_sample`: correspondance between samples and their barcodes.
+* `threads`: number of threads to use.
 Configuration will be done automatically by the generate_runfolder.py script, using only the samplesheet of the sequencing.
 
 ## Run complete workflow
