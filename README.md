@@ -1,7 +1,7 @@
 # LORD-DNA
 long-read sequencing analysis pipeline
 
-<img src="images/LORD-DNA.png" alt="Logo LORD-DNA" width="300">
+<img src="Images/LORD-DNA.png" alt="Logo LORD-DNA" width="300">
 
 ------
 
