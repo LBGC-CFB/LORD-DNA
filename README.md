@@ -1,7 +1,7 @@
 # LORD-DNA
 LOng-ReaD DNA Analysis pipeline
 
-<img src="Images/LORD-DNA.png" alt="Logo LORD-DNA" width="300">
+<img src="Images/LORD-DNA.png" alt="Logo LORD-DNA" width="500">
 
 ------
 
