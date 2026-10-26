@@ -7,7 +7,7 @@ LOng-ReaD DNA Analysis pipeline
 
 This pipeline is a toolkit designed to align (minimap2), call and annot SVs (sniffles/cuteSV + AnnotSV) and SNV/indels (clair3/Deepvariant) from nanopore adaptive sampling data.
 
-<img src="Images/pipeline.PNG" alt="LORD-DNA pipeline" width="500">
+<img src="Images/pipeline.PNG" alt="LORD-DNA pipeline" width="800">
 
 This pipeline starts with the basecalling step and requires the *.pod5 files. These are the direct outputs of Nanopore sequencing via Minknow.
 
