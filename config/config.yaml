@@ -1,0 +1,112 @@
+#reference files
+refs:
+   genome_old: /mnt/diag_references/hg38_full/GRCh38.p14_genomic.fa
+   genome: /mnt/diag_references/hg38_primary/GRCh38.primary_assembly.genome.fa
+   genome_version: GRCh38
+   bed: /mnt/diag_references/bed/Nanopore/Cancer_gene_and_regulator_element_extended_HG38.bed
+   bed_ontarget: /mnt/diag_references/bed/Nanopore/Cancer_gene_and_regulator_element_extended_HG38_1kb.bed
+   bed_offtarget: /mnt/diag_references/bed/Nanopore/Cancer_gene_and_regulator_element_extended_HG38_10kb.antitarget.bed
+   bed_exons: /mnt/diag_references/bed/Nanopore/hboc_exons_hg38.bed
+   bed_locus: /mnt/diag_references/bed/Nanopore/hboc_locus_hg38.bed
+   bed_prom: /mnt/diag_references/bed/Nanopore/Promoteur_BRCA1_BRCA2.bed
+
+#models 
+models:
+    clair3: /mnt/RetD/workspace/container/clair3/r1041_e82_400bps_sup_v500/
+    greendb: /mnt/remote_references/containers/greenvaran/greendb_schema_v2.5.json
+    deepvariant: ONT_R104
+    pepper_deepvariant: ont_r10_q20
+
+#databases
+databases:
+    clinvar: /mnt/RetD/DB/clinvar/clinvar_hg38.vcf.gz
+    dbNSFP: /mnt/RetD/dbNSFP4.9/dbNSFP4.9a.txt.gz
+    greenvaran: /mnt/remote_references/containers/greenvaran/GRCh38_GREEN-DB.bed.gz
+    greendb: /mnt/diag_references/bed/greendb/GRCh38_GREEN-DB.bed
+    annotsv: /mnt/RetD/DB/annotSV/
+    LR_SNV: /mnt/hsf/DB/LongReadTmp/LR_notes_db_snv.xlsx
+    LR_SV: /mnt/hsf/DB/LongReadTmp/LR_notes_db_sv.xlsx
+    LR_occu: /mnt/hsf/DB/LongReadTmp/LR_occurrences_db.tsv
+    LR_occu_sv: /mnt/hsf/DB/LongReadTmp/LR_occurrences_sv.tsv
+
+#directories
+dirs:
+    indir: /mnt/csf/DNAseq_LR_AS/LR_DNA_LIB1_04_09_2026/no_sample_id/20260904_1301_P2S-00833-B_PBO14682_2ddab0e5/pod5
+    outdir: /mnt/RetD/DNAseq_LR_AS/dlA
+    vep: /mnt/remote_references/VEP/
+
+aligner: minimap2
+
+singularity:
+    dorado: "/mnt/remote_references/containers/dorado/dorado.latest"
+    python: "/mnt/remote_references/containers/python-tools/python-tools.latest"
+    samtools: "/mnt/RetD/workspace/container/samtools_1_9/samtools_1_9.sif"
+    minimap2: "/mnt/remote_references/containers/minimap2/minimap2.latest"
+    annotsv: "/mnt/remote_references/containers/annotsv/annotsv.latest"
+    greenvaran: "/mnt/remote_references/containers/greenvaran/greenvaran.latest"
+    snpeff: "/mnt/remote_references/containers/snpeff/snpeff.latest"
+    alamut_batch: "/mnt/remote_references/containers/alamut_batch/alamut_batch.latest"
+    vep: "/mnt/remote_references/containers/vep/vep.latest"
+    spliceai: "/mnt/remote_references/containers/spliceai/spliceai.latest"
+    finsurf: "/mnt/remote_references/containers/finsurf/finsurf.latest"
+    nanostat: "/mnt/remote_references/containers/nanostat/nanostat.latest"
+    multiqc: "/mnt/remote_references/containers/multiqc/multiqc.latest"
+    sniffles: "/mnt/remote_references/containers/sniffles/sniffles.latest"
+    clair3: "/mnt/remote_references/containers/clair3/clair3.latest"
+    deepvariant_gpu: "/mnt/remote_references/containers/deepvariant_gpu/deepvariant_gpu.latest"
+    pepper-margin-deepvariant_gpu: "/mnt/remote_references/containers/pepper-margin-deepvariant_gpu/pepper-margin-deepvariant_gpu.latest"
+    bcftools: "/mnt/remote_references/containers/bcftools/bcftools.latest"
+    spip: "/mnt/remote_references/containers/spip/spip.latest"
+    cutesv: "/mnt/remote_references/containers/cutesv/cutesv.latest"
+
+
+#threads
+threads: 16
+
+tools:        
+    dorado:
+        model: "/models/dna_r10.4.1_e8.2_400bps_sup@v5.2.0"
+        #model: "/models/dna_r10.4.1_e8.2_400bps_hac@v6.0.0"
+        kit: "SQK-NBD114-24"
+    vep:
+        alphamissense: /mnt/remote_references/VEP/plugins/AlphaMissense/AlphaMissense_hg38.tsv.gz
+        maxentscan: /mnt/remote_references/VEP/plugins/MaxEntScan
+        revel: /mnt/remote_references/VEP/plugins/REVEL/new_tabbed_revel_grch38.tsv.gz
+        spliceaisnv: /mnt/remote_references/VEP/plugins/spliceai/spliceai_scores.raw.snv.hg38.vcf.gz
+        spliceaiindel: /mnt/remote_references/VEP/plugins/spliceai/spliceai_scores.raw.indel.hg38.vcf.gz
+        
+
+    finsurf:
+        scores: /mnt/remote_references/finsurf/static/data/scores_all_chroms_1e-4.tsv.gz
+        regions: /mnt/remote_references/finsurf/static/data/FINSURF_REGULATORY_REGIONS_GENES.bed.gz
+
+    greenvaran:
+        conf: /mnt/RetD/DB/greenvaran/config.json
+    
+    
+    spip:
+        maxlines: 1000
+        transcriptome: /mnt/diag_references/spip/transcriptome_hg38.RData
+
+    
+    cutesv:
+        max_cluster_bias_INS: 100
+        diff_ratio_merging_INS: 0.3
+        max_cluster_bias_DEL: 100
+        diff_ratio_merging_DEL: 0.3
+        min_support: 4
+        min_size: 50
+        max_size: 150000
+        # Preserve the existing cuteSV command; enable to obtain reference-read counts.
+        genotype: false
+
+
+samples:
+  - barcode63
+  - barcode32
+  - barcode15
+
+barcode_to_sample:
+  barcode07: barcode63
+  barcode08: barcode32
+  barcode15: barcode15
