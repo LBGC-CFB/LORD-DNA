@@ -1,0 +1,65 @@
+configfile: "../config/config.yaml"
+
+# -----------------------------
+# Globals / defaults
+# -----------------------------
+
+ALIGNERS = ["minimap2"]
+
+SNV_CALLERS = ["clair3", "deepvariant"]
+SV_CALLERS = ["sniffles", "cutesv"]
+
+def sv_vcf_gz(wc):
+    """Raw SV VCF (.vcf.gz) produced by the chosen SV caller."""
+    outdir = config["dirs"]["outdir"]
+    if wc.svcaller == "sniffles":
+        return f"{outdir}/sniffles/{wc.sample}_{wc.aligner}.vcf.gz"
+    if wc.svcaller == "cutesv":
+        return f"{outdir}/cutesv/{wc.aligner}/{wc.sample}/cutesv.vcf.gz"
+    raise ValueError(f"Unknown svcaller: {wc.svcaller}")
+
+def snv_vcf_gz(wc):
+    """Raw SNV VCF (.vcf.gz) produced by the chosen caller."""
+    outdir = config["dirs"]["outdir"]
+    if wc.caller == "clair3":
+        return f"{outdir}/clair3/{wc.aligner}/{wc.sample}/merge_output.vcf.gz"
+    if wc.caller == "deepvariant":
+        return f"{outdir}/deepvariant/{wc.aligner}/{wc.sample}/output.vcf.gz"
+    raise ValueError(f"Unknown caller: {wc.caller}")
+
+# -----------------------------
+# Load rules
+# -----------------------------
+include: "rules/aligners.smk"
+include: "rules/annotators.smk"
+include: "rules/basecalling.smk"
+include: "rules/callers.smk"
+include: "rules/cnv.smk"
+include: "rules/qc.smk"
+
+# -----------------------------
+# Target rule
+# -----------------------------
+rule all:
+    input:
+        # SV outputs
+        expand(f"{config['dirs']['outdir']}/filtered_final_sv_{{svcaller}}.xlsx", svcaller=SV_CALLERS),
+        expand(f"{config['dirs']['outdir']}/unfiltered_final_sv_{{svcaller}}.xlsx", svcaller=SV_CALLERS),
+
+        # SNV outputs
+        expand(f"{config['dirs']['outdir']}/filtered_final_snv_{{caller}}.xlsx", caller=SNV_CALLERS),
+        expand(f"{config['dirs']['outdir']}/unfiltered_final_snv_{{caller}}.xlsx", caller=SNV_CALLERS),
+
+        # SPiP
+        expand(
+            f"{config['dirs']['outdir']}/spip/{{caller}}/{{sample}}_{{aligner}}.csv",
+            caller=SNV_CALLERS,
+            sample=config["samples"],
+            aligner=ALIGNERS,
+        ),
+
+        # MultiQC
+        f"{config['dirs']['outdir']}/multiqc/DNASeq_LongRead_Adaptive_Sampling_multiqc_report.html",
+        f"{config['dirs']['outdir']}/multiqc/exons_30X_mqc.tsv",
+        f"{config['dirs']['outdir']}/multiqc/locus_30X_mqc.tsv",
+
